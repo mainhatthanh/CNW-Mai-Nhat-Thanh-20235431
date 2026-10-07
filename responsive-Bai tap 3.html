@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Web Design Demo</title>
+    <style>
+        /* 1. Base Styles (Thiết lập chung cho mọi màn hình - Mobile first) */
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto; /* Căn giữa */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap; /* Cho phép các cột xuống dòng khi không đủ chỗ */
+            margin-top: 20px;
+        }
+
+        .column {
+            /* Mặc định (Mobile < 600px): 1 cột, mỗi khối chiếm trọn chiều ngang */
+            flex: 1 1 100%;
+            max-width: 100%;
+            padding: 15px;
+            background-color: white;
+            border: 1px solid #ddd;
+            margin: 10px;
+            box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước cột */
+        }
+
+        /* 2. Media Queries (Thiết kế cho các kích thước màn hình cụ thể) */
+
+        /* 2.1. Tablet: 600px - 1023px -> 2 cột nằm ngang */
+        @media (min-width: 600px) and (max-width: 1023px) {
+            .column {
+                /* 50% trừ đi 20px margin (10px mỗi bên) */
+                flex: 1 1 calc(50% - 20px);
+                max-width: calc(50% - 20px);
+            }
+        }
+
+        /* 2.2. PC / Desktop: >= 1024px -> 3 cột nằm ngang */
+        @media (min-width: 1024px) {
+            .column {
+                /* 1/3 chiều rộng trừ đi 20px margin (10px mỗi bên) */
+                flex: 1 1 calc(33.3333% - 20px);
+                max-width: calc(33.3333% - 20px);
+            }
+        }
+
+        /* 2.3. Mobile nhỏ: thu gọn lề để tận dụng diện tích */
+        @media (max-width: 599px) {
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .column {
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="column">
+                <h3>Cột 1: PC (3 cột)</h3>
+                <p>Trên màn hình máy tính để bàn lớn (&ge; 1024px), các khối này sẽ hiển thị <strong>ba cột</strong> nằm ngang.</p>
+            </div>
+            <div class="column">
+                <h3>Cột 2: Tablet (2 cột)</h3>
+                <p>Trên màn hình máy tính bảng (600px - 1023px), các khối này sẽ hiển thị <strong>hai cột</strong> nằm ngang.</p>
+            </div>
+            <div class="column">
+                <h3>Cột 3: Mobile (1 cột)</h3>
+                <p>Trên màn hình điện thoại di động (&lt; 600px), các khối này sẽ hiển thị <strong>một cột</strong> xếp chồng theo chiều dọc.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

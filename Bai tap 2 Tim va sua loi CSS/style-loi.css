@@ -1,0 +1,225 @@
+/* =====================================================================
+   Blakletterpress — Trang khuyến mãi thiệp Tết 2026
+   HOẠT ĐỘNG 2 — CSS cho phần DÙNG GenAI (chủ đề: Box model + Position).
+
+   BẢN ĐÃ SỬA. Mọi chỗ thay đổi đều đánh dấu [SỬA]; những đoạn trông "lạ"
+   nhưng đúng được đánh dấu [GIỮ NGUYÊN - ĐÚNG] để không bị sửa nhầm.
+   Không đụng tới HTML, không thêm JS/thư viện.
+   ===================================================================== */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Segoe UI", Arial, sans-serif;
+	color: #222;
+	background: #f4f1ea;
+	line-height: 1.5;
+}
+
+a {
+	color: inherit;
+}
+
+.page {
+	/* [SỬA] overflow-x: hidden -> clip.
+	   'hidden' khiến trục Y tính ra 'auto' => .page thành scroll container,
+	   nuốt mất position: sticky của .site-header.
+	   'clip' vẫn cắt tràn ngang nhưng KHÔNG tạo scroll container.
+	   (Có thể xoá hẳn dòng này cũng được - trang không tràn ngang.) */
+	overflow-x: clip;
+}
+
+/* ===== Header / thanh điều hướng ===== */
+.site-header {
+	background: #2b2b2b;
+	position: sticky;   /* [GIỮ NGUYÊN - ĐÚNG] nay đã hoạt động nhờ sửa .page */
+	top: 0;
+	z-index: 100;       /* [GIỮ NGUYÊN - ĐÚNG] > .hero (auto) và .products (1) */
+}
+
+.header-inner {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 16px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.brand {
+	color: #fff;
+	font-size: 24px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.main-nav ul {
+	list-style: none;
+	display: flex;
+	gap: 24px;
+}
+
+.main-nav a {
+	color: #ddd;
+	text-decoration: none;
+}
+
+.main-nav a:hover {
+	color: #fff;
+}
+
+/* ===== Hero ===== */
+.hero {
+	position: relative;   /* [GIỮ NGUYÊN - ĐÚNG] containing block của .hero-overlay */
+	height: 360px;
+	overflow: hidden;     /* [GIỮ NGUYÊN - ĐÚNG] cắt phần ảnh bị scale ra ngoài */
+}
+
+.hero-bg {
+	display: block;       /* [SỬA] img mặc định inline -> sinh khoảng trống descender */
+	width: 100%;
+	height: 100%;
+	object-fit: cover;    /* [GIỮ NGUYÊN - ĐÚNG] phủ kín khung, không méo tỉ lệ */
+	transform: scale(1.08); /* [GIỮ NGUYÊN - ĐÚNG] zoom nhẹ có chủ ý của thiết kế */
+}
+
+/* [GIỮ NGUYÊN - ĐÚNG] top/left 50% + translate(-50%,-50%) = căn giữa 2 chiều */
+.hero-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
+	max-width: 560px;
+	text-align: center;
+	color: #fff;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.hero-overlay h1 {
+	font-size: 34px;
+	margin-bottom: 12px;
+}
+
+.hero-overlay p {
+	font-size: 18px;
+	margin-bottom: 20px;
+}
+
+.hero-btn {
+	display: inline-block;
+	padding: 12px 28px;
+	background: #c0392b;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 4px;
+}
+
+/* ===== Khu sản phẩm ===== */
+/* [GIỮ NGUYÊN - ĐÚNG] margin-top âm để khối này đè lên đáy hero (bo góc trên),
+   position: relative + z-index: 1 để nằm trên ảnh hero. Đây là thiết kế, không phải lỗi. */
+.products {
+	max-width: 1000px;
+	margin: -48px auto 48px;
+	padding: 24px 24px 0;
+	position: relative;
+	z-index: 1;
+	background: #f4f1ea;
+	border-radius: 16px 16px 0 0;
+}
+
+.products h2 {
+	margin-bottom: 24px;
+	font-size: 28px;
+}
+
+.card-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px;
+}
+
+.card {
+	flex: 0 0 calc((100% - 48px) / 3);
+	min-height: 320px;
+	position: relative;      /* [GIỮ NGUYÊN - ĐÚNG] mốc neo cho .badge của CHÍNH thẻ này */
+	box-sizing: border-box;  /* [SỬA] content-box khiến mỗi thẻ phình thêm 34px
+	                            (padding 16*2 + border 1*2) => thẻ thứ 3 rớt hàng */
+	background: #fff;
+	border: 1px solid #e0d8c8;
+	border-radius: 8px;
+	padding: 16px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.badge {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 3;   /* [SỬA] thiếu z-index => bị .card img (z-index: 2) đè lên che mất */
+	background: #c0392b;
+	color: #fff;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 4px 10px;
+	border-radius: 20px;
+}
+
+.card img {
+	display: block;
+	width: 100%;
+	height: 180px;
+	object-fit: cover;
+	border-radius: 4px;
+	position: relative;  /* [GIỮ NGUYÊN - ĐÚNG] */
+	z-index: 2;          /* [GIỮ NGUYÊN - ĐÚNG] ảnh nằm trên nền thẻ; badge đã lên 3 */
+}
+
+.card-body h3 {
+	margin: 12px 0 8px;
+	font-size: 20px;
+}
+
+.card-body p {
+	margin-bottom: 8px;
+	font-size: 15px;
+	color: #555;
+}
+
+.card-body .price {
+	color: #c0392b;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+/* ===== Nút lên đầu trang ===== */
+/* [GIỮ NGUYÊN - ĐÚNG] Đã đúng từ đầu: không tổ tiên nào có transform/filter/
+   perspective nên containing block vẫn là viewport => nút neo theo màn hình. */
+.back-to-top {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	width: 48px;
+	height: 48px;
+	background: #2b2b2b;
+	color: #fff;
+	text-align: center;
+	line-height: 48px;
+	font-size: 22px;
+	text-decoration: none;
+	border-radius: 50%;
+	z-index: 200;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+	padding: 32px 24px;
+	background: #2b2b2b;
+	color: #cfcfcf;
+	text-align: center;
+	font-size: 14px;
+}

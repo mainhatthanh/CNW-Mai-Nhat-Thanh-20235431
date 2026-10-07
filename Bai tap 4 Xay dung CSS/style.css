@@ -1,0 +1,578 @@
+@charset "UTF-8";
+/* =========================================================================
+   Blakletterpress — style.css
+   Bài tập 4: Xây dựng CSS cho trang HTML có sẵn (không sửa HTML).
+   Viết theo hướng mobile-first: CSS gốc dành cho điện thoại,
+   các @media (min-width) bên dưới mở rộng dần cho tablet và desktop.
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1. BIẾN MÀU & THIẾT LẬP CHUNG
+   Bảng màu lấy từ bộ ảnh có sẵn: nâu đen của chữ blackletter + vàng hổ phách
+   của ảnh nền bg-body.png.
+   ------------------------------------------------------------------------- */
+:root {
+	--nau-dam:    #2b1a10;   /* chữ chính, nền footer */
+	--nau:        #5a3410;   /* tiêu đề, nền thanh nav */
+	--nau-nhat:   #8a6038;   /* chữ phụ, viền */
+	--vang:       #e0a33c;   /* màu nhấn (accent) */
+	--vang-nhat:  #f6d9a0;   /* viền nhạt, nền hover */
+	--giay:       #fffaf1;   /* nền khối nội dung (màu giấy) */
+	--giay-dam:   #f6ecd9;   /* nền phụ */
+	--xam:        #5f5247;   /* chữ mô tả */
+
+	--bo-goc:     10px;
+	--vien:       1px solid var(--vang-nhat);
+	--do-bong:    0 2px 4px rgba(43, 26, 16, .08),
+	              0 8px 24px rgba(43, 26, 16, .10);
+
+	--rong-toi-da: 1180px;  /* chiều rộng tối đa của trang */
+	--khoang-cach: 24px;    /* khoảng cách chuẩn giữa các khối */
+}
+
+/* Reset nhẹ: box-sizing cho toàn trang, bỏ margin mặc định */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body,
+h1, h2, h3,
+p, ul, figure {
+	margin: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* Khi bấm vào menu, chừa chỗ cho thanh header dính (sticky) ở trên */
+[id] {
+	scroll-margin-top: 90px;
+}
+
+body {
+	font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-size: 16px;
+	line-height: 1.65;
+	color: var(--nau-dam);
+
+	/* Dùng ảnh nền có sẵn: dải vàng lặp ngang ở đỉnh trang */
+	background-color: var(--giay-dam);
+	background-image: url("./images/bg-body.png");
+	background-repeat: repeat-x;
+	background-position: top center;
+
+	-webkit-text-size-adjust: 100%;
+}
+
+/* Tiêu đề dùng font serif cho hợp phong cách nhà in */
+h1, h2, h3 {
+	font-family: Georgia, "Times New Roman", "Palatino Linotype", serif;
+	line-height: 1.25;
+	color: var(--nau);
+}
+
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.45rem; }
+h3 { font-size: 1.1rem; }
+
+p + p {
+	margin-top: 1em;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+a {
+	color: var(--nau);
+	text-decoration-color: var(--vang);
+	text-underline-offset: 3px;
+}
+
+a:hover {
+	color: #000;
+}
+
+/* Viền focus rõ ràng cho người dùng bàn phím (tiêu chí truy cập) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+	outline: 3px solid var(--vang);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+/* -------------------------------------------------------------------------
+   2. HEADER + MENU ĐIỀU HƯỚNG
+   ------------------------------------------------------------------------- */
+.site-header {
+	position: sticky;   /* dính lên đỉnh khi cuộn trang */
+	top: 0;
+	z-index: 10;
+
+	padding: 14px 16px;
+	text-align: center;
+	background: linear-gradient(180deg, var(--nau) 0%, var(--nau-dam) 100%);
+	box-shadow: 0 2px 10px rgba(43, 26, 16, .35);
+}
+
+.site-name {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 1.6rem;
+	font-weight: 700;
+	letter-spacing: .5px;
+	color: var(--vang-nhat);
+	text-decoration: none;
+}
+
+/* Chèn logo.png bằng pseudo-element để không phải sửa HTML */
+.site-name::before {
+	content: "";
+	width: 40px;
+	height: 28px;
+	background: url("./images/logo.png") no-repeat center / contain;
+	flex: none;
+}
+
+.site-name:hover {
+	color: #fff;
+}
+
+.tagline {
+	margin-top: 2px;
+	font-size: .86rem;
+	font-style: italic;
+	color: var(--vang);
+}
+
+.main-nav ul {
+	list-style: none;
+	padding: 0;
+	margin: 12px 0 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 6px 10px;
+}
+
+.main-nav a {
+	display: block;
+	padding: 7px 14px;
+	border-radius: 999px;
+	font-size: .92rem;
+	font-weight: 600;
+	color: var(--vang-nhat);
+	text-decoration: none;
+	transition: background-color .2s ease, color .2s ease;
+}
+
+.main-nav a:hover {
+	background-color: var(--vang);
+	color: var(--nau-dam);
+}
+
+/* -------------------------------------------------------------------------
+   3. BỐ CỤC CHÍNH: main + sidebar
+   Mobile: 1 cột (sidebar nằm dưới). Desktop: 2 cột nhờ CSS Grid.
+   ------------------------------------------------------------------------- */
+.layout {
+	max-width: var(--rong-toi-da);
+	margin: 0 auto;
+	padding: var(--khoang-cach) 16px;
+
+	display: grid;
+	grid-template-columns: 1fr;   /* mặc định 1 cột */
+	gap: var(--khoang-cach);
+	align-items: start;
+}
+
+/* Mỗi khối nội dung là một "tờ giấy" trắng */
+main > article,
+main > section,
+.sidebar {
+	background-color: var(--giay);
+	border: var(--vien);
+	border-radius: var(--bo-goc);
+	box-shadow: var(--do-bong);
+	padding: 22px;
+}
+
+main {
+	display: grid;
+	gap: var(--khoang-cach);
+	min-width: 0;   /* chống tràn khi nội dung dài */
+}
+
+/* Gạch chân trang trí dưới mỗi tiêu đề mục */
+main h1,
+main > section > h2,
+.sidebar h2 {
+	padding-bottom: 10px;
+	margin-bottom: 16px;
+	border-bottom: 2px solid var(--vang);
+}
+
+/* -------------------------------------------------------------------------
+   4. BÀI GIỚI THIỆU (article + figure)
+   ------------------------------------------------------------------------- */
+#gioi-thieu figure {
+	margin: 0 0 18px;
+}
+
+#gioi-thieu img {
+	width: 100%;
+	aspect-ratio: 16 / 9;
+	object-fit: cover;          /* ảnh luôn lấp đầy khung, không méo */
+	border-radius: var(--bo-goc);
+	border: var(--vien);
+}
+
+#gioi-thieu figcaption {
+	margin-top: 8px;
+	font-size: .85rem;
+	font-style: italic;
+	color: var(--xam);
+	text-align: center;
+}
+
+#gioi-thieu strong {
+	color: var(--nau);
+	background: linear-gradient(transparent 62%, var(--vang-nhat) 0);
+}
+
+/* -------------------------------------------------------------------------
+   5. GIÁ TRỊ CỐT LÕI (thẻ card)
+   ------------------------------------------------------------------------- */
+.value-list {
+	list-style: none;
+	padding: 0;
+
+	display: grid;
+	grid-template-columns: 1fr;   /* mobile: 1 cột */
+	gap: 16px;
+}
+
+.value-card {
+	padding: 18px;
+	background-color: var(--giay-dam);
+	border: var(--vien);
+	border-left: 5px solid var(--vang);
+	border-radius: var(--bo-goc);
+	transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.value-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--do-bong);
+}
+
+.value-card h3 {
+	margin-bottom: 6px;
+}
+
+.value-card p {
+	font-size: .94rem;
+	color: var(--xam);
+}
+
+/* -------------------------------------------------------------------------
+   6. ĐỘI NGŨ
+   ------------------------------------------------------------------------- */
+.team-list {
+	list-style: none;
+	padding: 0;
+
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);   /* mobile: 2 cột nhỏ */
+	gap: 18px;
+	text-align: center;
+}
+
+.member img {
+	width: 110px;
+	height: 110px;
+	margin: 0 auto 10px;
+	object-fit: cover;
+	border-radius: 50%;                      /* ảnh chân dung bo tròn */
+	border: 3px solid var(--vang);
+	box-shadow: 0 4px 10px rgba(43, 26, 16, .18);
+}
+
+.member h3 {
+	margin-bottom: 2px;
+}
+
+.member p {
+	font-size: .88rem;
+	color: var(--xam);
+}
+
+/* -------------------------------------------------------------------------
+   7. FORM LIÊN HỆ
+   ------------------------------------------------------------------------- */
+.contact-form p {
+	margin-bottom: 14px;
+}
+
+.contact-form label {
+	display: inline-block;
+	margin-bottom: 6px;
+	font-size: .9rem;
+	font-weight: 600;
+	color: var(--nau);
+}
+
+.contact-form input,
+.contact-form textarea {
+	width: 100%;
+	padding: 11px 13px;
+	font: inherit;
+	color: var(--nau-dam);
+	background-color: #fff;
+	border: 1px solid var(--nau-nhat);
+	border-radius: 6px;
+	transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.contact-form textarea {
+	resize: vertical;
+	min-height: 110px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+	border-color: var(--vang);
+	box-shadow: 0 0 0 3px rgba(224, 163, 60, .25);
+	outline: none;
+}
+
+.contact-form button {
+	padding: 12px 28px;
+	font: inherit;
+	font-weight: 700;
+	color: var(--giay);
+	background-color: var(--nau);
+	border: none;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background-color .2s ease, transform .1s ease;
+}
+
+.contact-form button:hover {
+	background-color: var(--nau-dam);
+}
+
+.contact-form button:active {
+	transform: translateY(1px);
+}
+
+/* -------------------------------------------------------------------------
+   8. SIDEBAR
+   ------------------------------------------------------------------------- */
+.sidebar h2 {
+	font-size: 1.2rem;
+}
+
+.recent {
+	list-style: none;
+	padding: 0;
+	margin-bottom: 16px;
+}
+
+.recent li + li {
+	border-top: 1px dashed var(--vang-nhat);
+}
+
+.recent a {
+	display: block;
+	padding: 10px 8px 10px 20px;
+	font-size: .94rem;
+	text-decoration: none;
+	border-radius: 6px;
+	position: relative;
+	transition: background-color .2s ease;
+}
+
+/* Dấu đầu dòng tự vẽ bằng CSS */
+.recent a::before {
+	content: "›";
+	position: absolute;
+	left: 7px;
+	color: var(--vang);
+	font-weight: 700;
+}
+
+.recent a:hover {
+	background-color: var(--giay-dam);
+}
+
+.sidebar > p {
+	font-size: .9rem;
+	color: var(--xam);
+}
+
+/* -------------------------------------------------------------------------
+   9. FOOTER
+   ------------------------------------------------------------------------- */
+.site-footer {
+	margin-top: 10px;
+	padding: 32px 16px 20px;
+	color: var(--vang-nhat);
+	background-color: var(--nau-dam);
+	border-top: 4px solid var(--vang);
+}
+
+.footer-cols {
+	list-style: none;
+	padding: 0;
+	max-width: var(--rong-toi-da);
+	margin: 0 auto;
+
+	display: grid;
+	grid-template-columns: 1fr;   /* mobile: 1 cột */
+	gap: 20px;
+}
+
+.footer-cols h3 {
+	margin-bottom: 6px;
+	font-size: 1rem;
+	color: var(--vang);
+}
+
+.footer-cols p {
+	font-size: .9rem;
+	color: #d9c6ab;
+}
+
+.copyright {
+	max-width: var(--rong-toi-da);
+	margin: 24px auto 0;
+	padding-top: 14px;
+	border-top: 1px solid rgba(246, 217, 160, .25);
+	text-align: center;
+	color: #c3b09a;
+}
+
+/* =========================================================================
+   10. MEDIA QUERIES
+   ========================================================================= */
+
+/* --- Tablet: từ 640px --- */
+@media (min-width: 640px) {
+	h1 { font-size: 2.2rem; }
+
+	.layout {
+		padding: 32px 24px;
+	}
+
+	main > article,
+	main > section,
+	.sidebar {
+		padding: 28px;
+	}
+
+	.value-list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.team-list {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.footer-cols {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.site-header {
+		padding: 18px 24px;
+	}
+
+	.site-name {
+		font-size: 1.9rem;
+	}
+}
+
+/* --- Desktop: từ 1024px --- */
+@media (min-width: 1024px) {
+	/* Hai cột: nội dung chính co giãn, sidebar cố định 300px */
+	.layout {
+		grid-template-columns: minmax(0, 1fr) 300px;
+		gap: 32px;
+	}
+
+	/* Sidebar dính lại khi cuộn, 70px = chừa chỗ cho header */
+	.sidebar {
+		position: sticky;
+		top: 100px;
+	}
+
+	.value-list {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.footer-cols {
+		grid-template-columns: repeat(4, 1fr);
+	}
+
+	#gioi-thieu img {
+		aspect-ratio: 21 / 9;
+	}
+}
+
+/* --- Màn hình rất nhỏ: dưới 400px, đội ngũ xếp 1 cột --- */
+@media (max-width: 399px) {
+	.team-list {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* --- Tôn trọng lựa chọn giảm chuyển động của người dùng --- */
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: .01ms !important;
+	}
+}
+
+/* --- Bản in: bỏ nền, bỏ phần không cần in --- */
+@media print {
+	body {
+		background: #fff;
+		color: #000;
+	}
+
+	.site-header,
+	.sidebar,
+	.contact-form button {
+		display: none;
+	}
+
+	.layout {
+		display: block;
+		max-width: none;
+	}
+
+	main > article,
+	main > section {
+		border: none;
+		box-shadow: none;
+		padding: 0;
+		page-break-inside: avoid;
+	}
+}
