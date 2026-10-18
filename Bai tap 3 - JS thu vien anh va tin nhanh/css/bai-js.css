@@ -85,3 +85,17 @@
 	font-style: italic;
 	padding: 0;
 }
+
+/* Dòng chỉ sang phần còn lại của bài tập */
+.dieu-huong-bai {
+	margin-top: 12px;
+	padding: 10px 14px;
+	background: #f4f4ea;
+	border-left: 4px solid #8a8a6d;
+	font-size: 13px;
+	line-height: 1.6;
+}
+.dieu-huong-bai a {
+	color: #5a5a3c;
+	text-decoration: underline;
+}
