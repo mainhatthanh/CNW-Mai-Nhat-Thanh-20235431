@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài tập 3 — Trả lời</title>
+<style>
+	body { font-family: Arial, "Times New Roman", serif; font-size: 11pt; line-height: 1.5; color: #000; max-width: 820px; margin: 24px auto; padding: 0 16px; }
+	h1 { font-size: 17pt; }
+	h2 { font-size: 14pt; margin-top: 26px; border-bottom: 1px solid #999; padding-bottom: 4px; }
+	h3 { font-size: 12pt; margin-top: 18px; }
+	table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; }
+	th, td { border: 1px solid #666; padding: 5px 8px; text-align: left; vertical-align: top; font-size: 10.5pt; }
+	th { background: #e8e8e8; }
+	td.n { width: 42px; text-align: center; }
+	td.dap-an { width: 190px; font-family: Consolas, "Courier New", monospace; }
+	code, pre { font-family: Consolas, "Courier New", monospace; font-size: 10pt; }
+	pre { background: #f4f4f4; border: 1px solid #ccc; padding: 8px 10px; white-space: pre-wrap; }
+	.ghi-chu { font-style: italic; color: #333; }
+</style>
+</head>
+<body>
+
+<h1>BÀI TẬP 3 — JavaScript: Thư viện ảnh và Đăng tin nhanh</h1>
+<p><strong>Họ tên:</strong> Mai Nhật Thành &nbsp;·&nbsp; <strong>MSSV:</strong> 20235431 &nbsp;·&nbsp; <strong>Lớp:</strong> 172920 &nbsp;·&nbsp; <strong>Học phần:</strong> IT4409</p>
+
+<h2>Bài 3a — Thư viện ảnh tương tác (file <code>js/bai-a-gallery.js</code>)</h2>
+
+<p>Bảng đáp án cho 27 chỗ trống. Các chỗ trống nằm trong chú thích (4, 5, 6, 18, 22, 23, 24, 26, 27) là kết quả dự đoán, đã được đối chiếu với kết quả chạy thật.</p>
+
+<table>
+<tr><th>#</th><th>Đáp án</th><th>Giải thích</th></tr>
+<tr><td class="n">1</td><td class="dap-an">querySelector</td><td>Trả về phần tử <em>đầu tiên</em> khớp bộ chọn CSS.</td></tr>
+<tr><td class="n">2</td><td class="dap-an">querySelectorAll</td><td>Trả về <code>NodeList</code> gồm <em>tất cả</em> phần tử khớp.</td></tr>
+<tr><td class="n">3</td><td class="dap-an">getElementById</td><td>Tìm theo <code>id</code>; tham số không có dấu <code>#</code>.</td></tr>
+<tr><td class="n">4</td><td class="dap-an">6</td><td>Trong <code>index.html</code> có 6 thẻ <code>&lt;li&gt;&lt;img&gt;</code> làm ảnh nhỏ.</td></tr>
+<tr><td class="n">5</td><td class="dap-an">3</td><td><code>firstChild</code> tính cả node văn bản. Giữa <code>&lt;ul&gt;</code> và <code>&lt;li&gt;</code> đầu tiên có dấu xuống dòng và tab, nên con đầu là node văn bản — <code>nodeType</code> bằng 3 (<code>Node.TEXT_NODE</code>), không phải 1.</td></tr>
+<tr><td class="n">6</td><td class="dap-an">13</td><td>6 phần tử <code>&lt;li&gt;</code> + 7 node văn bản khoảng trắng (trước <code>li</code> đầu, giữa các <code>li</code>, và sau <code>li</code> cuối) = 13.</td></tr>
+<tr><td class="n">7</td><td class="dap-an">parentNode</td><td>Đi từ <code>&lt;img&gt;</code> lên thẻ cha là <code>&lt;li&gt;</code>.</td></tr>
+<tr><td class="n">8</td><td class="dap-an">createElement</td><td>Tạo phần tử mới (chưa nằm trên cây DOM).</td></tr>
+<tr><td class="n">9</td><td class="dap-an">textContent</td><td>Gán văn bản thuần. Nếu dùng <code>innerHTML</code>, trình duyệt sẽ diễn giải thẻ HTML có trong chuỗi.</td></tr>
+<tr><td class="n">10</td><td class="dap-an">appendChild</td><td>Chèn vào cuối danh sách con của <code>&lt;div&gt;</code> chứa ảnh lớn.</td></tr>
+<tr><td class="n">11</td><td class="dap-an">!==</td><td>So sánh nghiêm ngặt: nếu thứ bị bấm không phải <code>&lt;img&gt;</code> thì bỏ qua.</td></tr>
+<tr><td class="n">12</td><td class="dap-an">return</td><td>Thoát sớm khỏi hàm, nhờ đó bấm vào khoảng trống không gây lỗi trong Console.</td></tr>
+<tr><td class="n">13</td><td class="dap-an">target</td><td><code>e.target</code> là phần tử thật sự bị bấm (ảnh nhỏ), khác <code>e.currentTarget</code> là phần tử gắn listener (<code>&lt;ul&gt;</code>).</td></tr>
+<tr><td class="n">14</td><td class="dap-an">of</td><td>Lặp qua từng phần tử của <code>NodeList</code>.</td></tr>
+<tr><td class="n">15</td><td class="dap-an">className</td><td>Gán lớp <code>dang-chon</code> cho <code>&lt;li&gt;</code> vừa bấm để CSS vẽ viền.</td></tr>
+<tr><td class="n">16</td><td class="dap-an">addEventListener</td><td>Đăng ký trình lắng nghe.</td></tr>
+<tr><td class="n">17</td><td class="dap-an">doiAnh</td><td>Truyền <em>tên hàm</em>, không có cặp ngoặc.</td></tr>
+<tr><td class="n">18</td><td class="dap-an">(B)</td><td>Viết <code>doiAnh()</code> là <em>gọi hàm ngay</em> lúc tải trang với <code>e</code> bằng <code>undefined</code>, nên câu <code>e.target</code> ném <code>TypeError</code>; giá trị trả về <code>undefined</code> cũng không phải một listener hợp lệ.</td></tr>
+<tr><td class="n">19</td><td class="dap-an">focus</td><td>Sự kiện tương ứng với <code>onFocus</code> trong HTML.</td></tr>
+<tr><td class="n">20</td><td class="dap-an">removeEventListener</td><td>Gỡ trình lắng nghe.</td></tr>
+<tr><td class="n">21</td><td class="dap-an">doiAnh</td><td>Phải truyền <em>đúng tham chiếu hàm</em> đã dùng khi đăng ký thì mới gỡ được.</td></tr>
+<tr><td class="n">22</td><td class="dap-an">click</td><td><code>e.type</code> là tên sự kiện.</td></tr>
+<tr><td class="n">23</td><td class="dap-an">nut-khoa</td><td><code>e.target</code> là nút vừa bấm, <code>id</code> của nó là <code>nut-khoa</code>.</td></tr>
+<tr><td class="n">24</td><td class="dap-an">không</td><td>Hai hàm mũi tên viết giống hệt nhau vẫn là hai object khác nhau trong bộ nhớ, nên <code>removeEventListener</code> không tìm thấy listener để gỡ. Muốn gỡ được thì phải lưu hàm vào một biến.</td></tr>
+<tr><td class="n">25</td><td class="dap-an">prepend</td><td>Chèn vào đầu danh sách con (tương đương <code>insertBefore(mucMoi, dsBaiViet.firstChild)</code>).</td></tr>
+<tr><td class="n">26</td><td class="dap-an">hiện NGUYÊN cả cặp thẻ &lt;b&gt;…&lt;/b&gt;</td><td>Vì nội dung được gán bằng <code>textContent</code>, trình duyệt coi <code>&lt;b&gt;</code> là ký tự bình thường chứ không phải thẻ.</td></tr>
+<tr><td class="n">27</td><td class="dap-an">3</td><td>2 mục có sẵn trong <code>#posts</code> cộng thêm 1 mục vừa chèn.</td></tr>
+</table>
+
+<p class="ghi-chu">Kết quả trên <code>index.html</code>: dưới ảnh lớn có dòng chú thích; bấm ảnh nhỏ thì ảnh lớn đổi, chú thích thành “Đang xem: meeting.jpg” (hoặc “team-large.jpg”) và ảnh nhỏ đó có viền; bấm khoảng trống không gây lỗi; ô tìm kiếm ẩn/hiện chữ gợi ý; bấm “Khoá thư viện ảnh” thì ảnh nhỏ hết tác dụng; cột bên phải có thêm một mục ở đầu danh sách.</p>
+
+<h2>Bài 3b — Lọc tin và đăng tin nhanh (file <code>js/bai-b-tin-nhanh.js</code>)</h2>
+
+<h3>F1 — Bộ đếm</h3>
+<p>Hàm <code>capNhatBoDem()</code> đếm số <code>&lt;li&gt;</code> không mang lớp <code>an</code> trên tổng số <code>&lt;li&gt;</code> hiện có, rồi ghi vào <code>#bo-dem</code>. Danh sách tin được lấy lại bằng <code>danhSach.querySelectorAll("li")</code> ở <em>mỗi lần gọi</em>, không lưu sẵn một lần, vì tin mới đăng cũng phải được tính vào.</p>
+
+<h3>F2 — Lọc tin</h3>
+<p>Nghe sự kiện <code>keyup</code> trên <code>#o-tim-kiem</code>. Mỗi tin được ghép văn bản của <code>h3</code> và <code>p</code>, cùng đưa về chữ thường rồi so bằng <code>includes()</code> nên không phân biệt hoa thường. Việc ẩn/hiện dùng:</p>
+<pre>tin.classList.toggle("an", !khop);</pre>
+<p>Dạng <code>toggle(tên, điều_kiện)</code> gọn hơn hẳn cặp <code>if/else</code> với <code>add</code>/<code>remove</code>: thêm lớp khi điều kiện đúng, bỏ lớp khi sai. Từ khoá rỗng được xử lý riêng để mọi tin đều coi là khớp.</p>
+
+<h3>F3 — Thông báo không tìm thấy</h3>
+<pre>khongThay.textContent = `Không tìm thấy tin nào cho "${oTimKiem.value.trim()}"`;</pre>
+<p>Dùng <code>textContent</code> chứ không phải <code>innerHTML</code>. Đây chính là điểm đề kiểm tra: gõ <code>&lt;b&gt;x&lt;/b&gt;</code> thì trên trang phải thấy đúng 8 ký tự đó chứ không thấy chữ đậm. Nếu dùng <code>innerHTML</code>, chuỗi người dùng gõ sẽ bị biến thành thẻ HTML thật — đó là lỗ hổng XSS.</p>
+
+<h3>F4 — Mở rộng / thu gọn</h3>
+<p>Đề yêu cầu <strong>chỉ một</strong> trình lắng nghe <code>click</code>, đặt trên <code>#list</code>. Giải pháp là <em>uỷ quyền sự kiện</em> (event delegation): nhờ cơ chế nổi bọt, cú bấm ở nút con sẽ nổi lên tới <code>#list</code>, ở đó mới xác định xem bấm trúng cái gì:</p>
+<pre>const nut = e.target.closest("button.more");
+if (nut === null) { return; }          // bấm vào h3, p hay khoảng trống: bỏ qua
+
+const doanVan = nut.closest("li").querySelector("p");
+const dangMo = doanVan.classList.toggle("day-du");
+nut.textContent = dangMo ? "Thu gọn &lt;&lt;" : "Read more &gt;&gt;";</pre>
+<p>Hai ưu điểm so với cách gắn listener cho từng nút: (1) chỉ tốn một listener thay vì N; (2) tin đăng sau này tự động dùng được nút Read more mà không cần đăng ký thêm gì. Ở đây <code>toggle()</code> được dùng ở dạng trả về <code>true/false</code> để biết đang mở hay đang đóng mà đổi chữ trên nút.</p>
+
+<h3>F5 — Đăng tin nhanh</h3>
+<p>Thẻ <code>&lt;li&gt;</code> mới được dựng bằng <code>createElement</code> cho từng phần (<code>span.time</code>, <code>h3</code>, <code>p</code>, <code>button.more</code>), nội dung gán bằng <code>textContent</code>, rồi ghép lại và chèn bằng <code>danhSach.prepend(tin)</code>. Ngày lấy từ hàm <code>homNay()</code> có sẵn trong <code>ho-tro.js</code>.</p>
+<p>Cách dựng này (thay vì nối chuỗi rồi gán <code>innerHTML</code>) khiến tiêu đề <code>&lt;img src="x"&gt;</code> hay nội dung <code>&lt;script&gt;</code> người dùng nhập chỉ hiện ra như chữ, không bao giờ chạy được.</p>
+<p>Sau khi chèn, hàm kết thúc bằng lời gọi <code>locTin()</code>. Một lời gọi này lo luôn ba việc: tin mới tuân theo từ khoá đang gõ (không khớp thì bị ẩn ngay), thông báo “không tìm thấy” được tính lại, và bộ đếm được cập nhật.</p>
+<p>Nếu tiêu đề hoặc nội dung rỗng thì ghi câu báo lỗi vào <code>#bao-loi</code> rồi <code>return</code> ngay, không thêm tin. Đăng thành công thì xoá trắng hai ô nhập và xoá <code>#bao-loi</code>.</p>
+
+<h3>Khởi động</h3>
+<p>Cuối file gọi <code>locTin()</code> một lần để bộ đếm hiện đúng “Đang hiển thị y/y tin” ngay khi tải trang, chưa cần người dùng gõ gì.</p>
+
+<h3>Kết quả kiểm thử</h3>
+<p>Bộ kiểm tra <code>js/kiem-tra.js</code> (giả lập thao tác người dùng bằng <code>dispatchEvent()</code>): <strong>18/18 testcase đạt (T1–T18)</strong>.</p>
+
+</body>
+</html>

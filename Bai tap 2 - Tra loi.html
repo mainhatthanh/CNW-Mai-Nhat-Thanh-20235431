@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Bài tập 2 — Trả lời</title>
+<style>
+	body { font-family: Arial, "Times New Roman", serif; font-size: 11pt; line-height: 1.5; color: #000; max-width: 820px; margin: 24px auto; padding: 0 16px; }
+	h1 { font-size: 17pt; }
+	h2 { font-size: 14pt; margin-top: 26px; border-bottom: 1px solid #999; padding-bottom: 4px; }
+	h3 { font-size: 12pt; margin-top: 18px; }
+	table { border-collapse: collapse; width: 100%; margin: 10px 0 18px; }
+	th, td { border: 1px solid #666; padding: 5px 8px; text-align: left; vertical-align: top; font-size: 10.5pt; }
+	th { background: #e8e8e8; }
+	td.n { width: 42px; text-align: center; }
+	td.dap-an { width: 190px; font-family: Consolas, "Courier New", monospace; }
+	code, pre { font-family: Consolas, "Courier New", monospace; font-size: 10pt; }
+	pre { background: #f4f4f4; border: 1px solid #ccc; padding: 8px 10px; white-space: pre-wrap; }
+	.ghi-chu { font-style: italic; color: #333; }
+</style>
+</head>
+<body>
+
+<h1>BÀI TẬP 2 — JavaScript: Trang News và Giỏ hàng</h1>
+<p><strong>Họ tên:</strong> Mai Nhật Thành &nbsp;·&nbsp; <strong>MSSV:</strong> 20235431 &nbsp;·&nbsp; <strong>Lớp:</strong> 172920 &nbsp;·&nbsp; <strong>Học phần:</strong> IT4409</p>
+
+<h2>Bài 2a — Trang News lấy dữ liệu từ JSON (file <code>js/bai-a-tin-tuc.js</code>)</h2>
+
+<p>Bảng đáp án cho 30 chỗ trống. Các chỗ trống nằm trong chú thích (5, 7, 10, 11, 13, 18, 19, 21, 22, 25, 30) là kết quả dự đoán, đã được đối chiếu với kết quả chạy thật trong Console.</p>
+
+<table>
+<tr><th>#</th><th>Đáp án</th><th>Giải thích</th></tr>
+<tr><td class="n">1</td><td class="dap-an">parse</td><td><code>JSON.parse()</code> đổi chuỗi JSON thành mảng object JavaScript.</td></tr>
+<tr><td class="n">2</td><td class="dap-an">push</td><td>Thêm phần tử vào cuối mảng.</td></tr>
+<tr><td class="n">3</td><td class="dap-an">unshift</td><td>Thêm phần tử vào đầu mảng.</td></tr>
+<tr><td class="n">4</td><td class="dap-an">pop</td><td>Lấy ra và xoá phần tử cuối.</td></tr>
+<tr><td class="n">5</td><td class="dap-an">6</td><td>Phần tử cuối lúc này là bài vừa <code>push</code> ở (2), có <code>id</code> là 6.</td></tr>
+<tr><td class="n">6</td><td class="dap-an">shift</td><td>Lấy ra và xoá phần tử đầu.</td></tr>
+<tr><td class="n">7</td><td class="dap-an">5</td><td>5 bài gốc + 2 (push, unshift) − 2 (pop, shift) = 5.</td></tr>
+<tr><td class="n">8</td><td class="dap-an">["tac gia"]</td><td>Khoá có dấu cách nên bắt buộc dùng ngoặc vuông; không viết được <code>baiMot.tac gia</code>.</td></tr>
+<tr><td class="n">9</td><td class="dap-an">delete</td><td>Toán tử <code>delete</code> xoá hẳn thuộc tính khỏi object.</td></tr>
+<tr><td class="n">10</td><td class="dap-an">undefined</td><td>Đọc một thuộc tính không tồn tại trả về <code>undefined</code> chứ không báo lỗi.</td></tr>
+<tr><td class="n">11</td><td class="dap-an">[GHIM] Mẫu thiệp cưới mùa thu</td><td>Object là kiểu tham chiếu: <code>baiGhim</code> và <code>dsBai[1]</code> cùng trỏ tới một object, sửa qua biến này thì biến kia cũng đổi.</td></tr>
+<tr><td class="n">12</td><td class="dap-an">filter</td><td>Lọc ra mảng mới gồm các phần tử thoả điều kiện.</td></tr>
+<tr><td class="n">13</td><td class="dap-an">4</td><td>5 bài còn lại, bỏ bài <code>id</code> 4 có <code>draft: true</code> → 4 bài.</td></tr>
+<tr><td class="n">14</td><td class="dap-an">map</td><td>Biến đổi từng phần tử thành phần tử mới.</td></tr>
+<tr><td class="n">15</td><td class="dap-an">toUpperCase</td><td>Phương thức của chuỗi, đổi sang chữ hoa.</td></tr>
+<tr><td class="n">16</td><td class="dap-an">bai.views</td><td>Giá trị cần cộng dồn ở mỗi vòng lặp.</td></tr>
+<tr><td class="n">17</td><td class="dap-an">0</td><td>Giá trị khởi tạo của biến tích luỹ.</td></tr>
+<tr><td class="n">18</td><td class="dap-an">2600</td><td>320 + 870 + 540 + 870 = 2600.</td></tr>
+<tr><td class="n">19</td><td class="dap-an">(B)</td><td>Bỏ giá trị khởi tạo thì <code>reduce</code> lấy phần tử đầu (một object) làm giá trị ban đầu, nên phép <code>object + số</code> ép object thành chuỗi <code>"[object Object]"</code>.</td></tr>
+<tr><td class="n">20</td><td class="dap-an">&gt;</td><td>Dùng <code>&gt;</code> (không phải <code>&gt;=</code>): khi hai bài bằng lượt xem, điều kiện sai nên giữ lại <code>max</code> — tức bài đứng trước.</td></tr>
+<tr><td class="n">21</td><td class="dap-an">2</td><td>Bài <code>id</code> 2 và <code>id</code> 5 cùng có 870 lượt xem; theo quy tắc trên, giữ bài đứng trước là <code>id</code> 2.</td></tr>
+<tr><td class="n">22</td><td class="dap-an">undefined</td><td>Hàm mũi tên có thân <code>{ ... }</code> mà không có <code>return</code> thì trả về <code>undefined</code>, nên <code>map</code> tạo ra mảng toàn <code>undefined</code>.</td></tr>
+<tr><td class="n">23</td><td class="dap-an">of</td><td>Lặp trên <em>giá trị</em> của mảng dùng <code>for…of</code> (còn <code>for…in</code> lặp trên chỉ số/khoá).</td></tr>
+<tr><td class="n">24</td><td class="dap-an">the</td><td>Dùng chính tên thẻ đang xét làm khoá của object đếm.</td></tr>
+<tr><td class="n">25</td><td class="dap-an">2</td><td>Thẻ <code>"mau moi"</code> xuất hiện ở bài <code>id</code> 2 và bài <code>id</code> 5.</td></tr>
+<tr><td class="n">26</td><td class="dap-an">constructor</td><td>Hàm khởi tạo của class.</td></tr>
+<tr><td class="n">27</td><td class="dap-an">this</td><td>Trỏ tới object đang được tạo.</td></tr>
+<tr><td class="n">28</td><td class="dap-an">new</td><td>Tạo một thể hiện mới của class.</td></tr>
+<tr><td class="n">29</td><td class="dap-an">stringify</td><td>Đổi object thành chuỗi JSON.</td></tr>
+<tr><td class="n">30</td><td class="dap-an">không</td><td><code>JSON.stringify</code> chỉ giữ dữ liệu, bỏ qua mọi phương thức. Kết quả in ra: <code>{"title":"Khai trương xưởng in mới","date":"01-03-2012","views":320}</code>.</td></tr>
+</table>
+
+<p class="ghi-chu">Kết quả: trang <code>news.html</code> hiện đúng 4 bài đã đăng, mỗi bài có ngày, tiêu đề và dòng tóm tắt “&lt;ngày&gt; — &lt;số&gt; lượt xem”.</p>
+
+<h2>Bài 2b — Class GioHang (file <code>js/bai-b-gio-hang.js</code>)</h2>
+
+<h3>Thiết kế</h3>
+<p>Mỗi dòng giỏ hàng là một object đúng 5 thuộc tính <code>{ id, ten, loai, gia, soLuong }</code>, lưu trong mảng <code>this.dsDong</code>. Thuộc tính <code>thanhTien</code> <em>không</em> được lưu trong giỏ mà chỉ tính ra khi cần, để <code>xuatJSON()</code> luôn cho mỗi dòng đúng 5 khoá.</p>
+
+<h3>Ba ràng buộc khó của đề và cách giải quyết</h3>
+
+<p><strong>1. Không làm xáo trộn <code>DANH_MUC</code>.</strong> Khi thêm, không đẩy thẳng object sản phẩm vào giỏ mà chép từng giá trị sang object mới:</p>
+<pre>this.dsDong.push({
+    id: sanPham.id, ten: sanPham.ten, loai: sanPham.loai,
+    gia: sanPham.gia, soLuong: soLuong
+});</pre>
+<p>Nhờ vậy giỏ không bao giờ ghi thêm thuộc tính <code>soLuong</code> vào object của <code>DANH_MUC</code>.</p>
+
+<p><strong>2. Không phụ thuộc object bên ngoài.</strong> Cũng nhờ phép chép trên, <code>gia</code> trong giỏ là một bản sao giá trị số. Sau <code>them(sp, 100)</code>, nếu ai đó sửa <code>sp.gia = 1</code> thì tổng tiền của giỏ vẫn giữ nguyên.</p>
+
+<p><strong>3. Bên ngoài không sửa được giỏ.</strong> <code>layDanhSach()</code> và <code>dongDatNhat()</code> không trả về object thật trong <code>dsDong</code> mà trả về bản sao do hàm phụ <code>_banSao()</code> tạo ra (kèm <code>thanhTien</code>). <code>map()</code> lại tạo ra một mảng mới, nên người dùng có <code>pop()</code> hay sửa <code>soLuong</code> trên kết quả cũng không chạm được vào giỏ.</p>
+
+<h3>Kiểm tra số lượng hợp lệ</h3>
+<pre>if (!Number.isInteger(soLuong) || soLuong &lt;= 0) { return false; }</pre>
+<p>Chỉ một dòng này loại được cả 6 trường hợp mà đề yêu cầu: <code>0</code>, số âm, <code>2.5</code>, <code>NaN</code>, <code>null</code>, <code>undefined</code>, và cả chuỗi <code>"50"</code>. Lý do: <code>Number.isInteger</code> trả về <code>false</code> với mọi giá trị không phải kiểu <code>number</code> — khác với <code>parseInt</code> hay <code>isNaN</code>, vốn sẽ ép kiểu và nhận nhầm chuỗi <code>"50"</code>.</p>
+
+<h3>Giữ dòng đứng trước khi bằng nhau</h3>
+<pre>const dong = this.dsDong.reduce((max, d) =&gt;
+    (d.gia * d.soLuong &gt; max.gia * max.soLuong ? d : max));</pre>
+<p>Dùng <code>&gt;</code> chứ không <code>&gt;=</code>: khi thành tiền bằng nhau, điều kiện sai nên <code>max</code> (dòng đứng trước) được giữ lại.</p>
+
+<h3>Xuất và nạp JSON</h3>
+<p><code>xuatJSON()</code> trả về <code>JSON.stringify(this.dsDong)</code>. <code>napGioHang()</code> tạo một <code>new GioHang()</code> rồi chép lại từng dòng <em>theo đúng thứ tự khoá</em> như lúc <code>them()</code>. Nhờ đó chuỗi “xuất → nạp → xuất” trùng khít chuỗi ban đầu, và giỏ nạp lại là một <code>GioHang</code> thật nên dùng được mọi phương thức.</p>
+
+<h3>Kết quả kiểm thử</h3>
+<p>Bộ kiểm tra <code>js/kiem-tra.js</code>: <strong>20/20 testcase đạt (T1–T20)</strong>. Trên trang <code>index.html</code>, ô Giỏ hàng ở cột bên phải hiện 2 dòng sản phẩm và dòng <strong>Tổng: 325000 đ</strong>, đúng như đề yêu cầu:</p>
+<pre>Thiệp cưới cotton   150 cái — 225000 đ
+Phong bì lót lụa    200 cái — 100000 đ
+Tổng: 325000 đ</pre>
+
+</body>
+</html>
