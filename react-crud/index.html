@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React CRUD - Quản lý người dùng</title>
+
+  <!-- Bước 1: React, ReactDOM, Babel qua CDN (ghim phiên bản cụ thể) -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.26.4/babel.min.js"></script>
+
+  <!-- Bước 8: Giao diện (CSS) và Modal -->
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f3f5fa;
+      color: #1f2433;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    header.page-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      color: #2d3561;
+    }
+
+    .student {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search {
+      flex: 1 1 260px;
+      padding: 10px 14px;
+      border: 1px solid #cfd5e3;
+      border-radius: 8px;
+      font-size: 15px;
+      background: #fff;
+    }
+
+    .search:focus,
+    .form-row input:focus {
+      outline: 2px solid #667eea;
+      border-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn-add    { background: #2d3561; color: #fff; padding: 10px 18px; }
+    .btn-add:hover { background: #3c4680; }
+    .btn-edit   { background: #fbbf24; color: #3b2a00; margin-right: 6px; }
+    .btn-edit:hover { background: #f59e0b; }
+    .btn-delete { background: #ef4444; color: #fff; }
+    .btn-delete:hover { background: #dc2626; }
+    .btn-save   { background: #16a34a; color: #fff; }
+    .btn-save:hover { background: #15803d; }
+    .btn-cancel { background: #e5e7eb; color: #374151; }
+    .btn-cancel:hover { background: #d1d5db; }
+
+    .table-wrap {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eef0f5;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #2d3561;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover { background: #f6f7fd; }
+    td.actions { white-space: nowrap; }
+
+    .status {
+      padding: 24px;
+      text-align: center;
+      color: #6b7280;
+    }
+
+    .count {
+      font-size: 13px;
+      color: #6b7280;
+      margin: 10px 2px 0;
+    }
+
+    /* Modal Overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+      padding: 16px;
+    }
+
+    /* Modal Content */
+    .modal-content {
+      background: #fff;
+      padding: 20px 22px;
+      border-radius: 10px;
+      width: 420px;
+      max-width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .modal-content h4 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      color: #2d3561;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .form-row label {
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .form-row input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #cfd5e3;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 22px; }
+      .form-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // Các trường của form (dùng chung cho Thêm và Sửa)
+    const FIELDS = [
+      { id: "name",     label: "Name" },
+      { id: "username", label: "Username" },
+      { id: "email",    label: "Email" },
+      { id: "street",   label: "Street" },
+      { id: "suite",    label: "Suite" },
+      { id: "city",     label: "City" },
+      { id: "phone",    label: "Phone" },
+      { id: "website",  label: "Website" },
+    ];
+    const ADDRESS_FIELDS = ["street", "suite", "city"];
+
+    const EMPTY_USER = {
+      name: "", username: "", email: "",
+      address: { street: "", suite: "", city: "" },
+      phone: "", website: "",
+    };
+
+    // Lấy giá trị một trường, kể cả trường lồng trong address
+    function getField(user, id) {
+      return ADDRESS_FIELDS.includes(id) ? user.address[id] : user[id];
+    }
+
+    // Trả về một object MỚI với trường id được cập nhật (không sửa object cũ)
+    function setField(user, id, value) {
+      if (ADDRESS_FIELDS.includes(id)) {
+        return { ...user, address: { ...user.address, [id]: value } };
+      }
+      return { ...user, [id]: value };
+    }
+
+    // Form dùng chung trong modal: hiển thị các ô nhập, controlled component
+    function UserForm({ title, user, onChange, onSubmit, onCancel, submitText, submitClass }) {
+      return (
+        <div className="modal-overlay" onClick={onCancel}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h4>{title}</h4>
+            {FIELDS.map((f) => (
+              <div className="form-row" key={f.id}>
+                <label htmlFor={f.id}>{f.label}:</label>
+                <input
+                  id={f.id}
+                  type="text"
+                  value={getField(user, f.id)}
+                  onChange={(e) => onChange(f.id, e.target.value)}
+                />
+              </div>
+            ))}
+            <div className="form-actions">
+              <button className={submitClass} onClick={onSubmit}>{submitText}</button>
+              <button className="btn-cancel" onClick={onCancel}>Hủy</button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Bước 3: SearchForm — gửi từ khóa lên App qua callback onChangeValue
+    function SearchForm({ onChangeValue }) {
+      return (
+        <input
+          className="search"
+          type="text"
+          placeholder="Tìm theo name, username"
+          onChange={(e) => onChangeValue(e.target.value)}
+        />
+      );
+    }
+
+    // Bước 5: AddUser — form thêm mới, gửi user lên App qua onAdd
+    function AddUser({ onAdd }) {
+      const [adding, setAdding] = React.useState(false);
+      const [user, setUser] = React.useState(EMPTY_USER);
+
+      const handleChange = (id, value) => {
+        setUser((prev) => setField(prev, id, value));
+      };
+
+      const handleAdd = () => {
+        if (user.name.trim() === "" || user.username.trim() === "") {
+          alert("Vui lòng nhập Name và Username!");
+          return;
+        }
+        onAdd(user);
+        setUser(EMPTY_USER);
+        setAdding(false);
+      };
+
+      const handleCancel = () => {
+        setUser(EMPTY_USER);
+        setAdding(false);
+      };
+
+      return (
+        <div>
+          {/* Truyền HÀM vào onClick, không gọi hàm ngay khi render */}
+          <button className="btn-add" onClick={() => setAdding(true)}>+ Thêm</button>
+          {adding && (
+            <UserForm
+              title="Thêm người dùng"
+              user={user}
+              onChange={handleChange}
+              onSubmit={handleAdd}
+              onCancel={handleCancel}
+              submitText="Thêm"
+              submitClass="btn-save"
+            />
+          )}
+        </div>
+      );
+    }
+
+    // Bước 4, 6, 7: ResultTable — tải, lọc, hiển thị, sửa, xóa
+    function ResultTable({ keyword, user, onAdded }) {
+      const [users, setUsers] = React.useState([]);
+      const [loading, setLoading] = React.useState(true);
+      const [error, setError] = React.useState("");
+      const [editing, setEditing] = React.useState(null);
+
+      // Tải dữ liệu 1 lần khi component mount
+      React.useEffect(() => {
+        fetch("https://jsonplaceholder.typicode.com/users")
+          .then((res) => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+          })
+          .then((data) => { setUsers(data); setLoading(false); })
+          .catch((err) => { setError(err.message); setLoading(false); });
+      }, []);
+
+      // Khi prop user thay đổi -> thêm vào danh sách.
+      // id = id lớn nhất + 1 (KHÔNG dùng prev.length + 1, vì sau khi xóa sẽ bị trùng id)
+      React.useEffect(() => {
+        if (user) {
+          setUsers((prev) => {
+            const maxId = prev.reduce((max, u) => Math.max(max, u.id), 0);
+            return [...prev, { ...user, id: maxId + 1 }];
+          });
+          onAdded();
+        }
+      }, [user]);
+
+      // Lọc theo keyword
+      const kw = keyword.trim().toLowerCase();
+      const filteredUsers = users.filter(
+        (u) =>
+          u.name.toLowerCase().includes(kw) ||
+          u.username.toLowerCase().includes(kw)
+      );
+
+      // Sửa: sao chép sâu (cả address) để form không đụng vào dữ liệu gốc
+      function editUser(u) {
+        setEditing({ ...u, address: { ...u.address } });
+      }
+
+      function handleEditChange(id, value) {
+        setEditing((prev) => setField(prev, id, value));
+      }
+
+      function saveUser() {
+        if (editing.name.trim() === "" || editing.username.trim() === "") {
+          alert("Vui lòng nhập Name và Username!");
+          return;
+        }
+        setUsers((prev) => prev.map((u) => (u.id === editing.id ? editing : u)));
+        setEditing(null);
+      }
+
+      // Xóa: tạo mảng mới không chứa phần tử có id cần xóa
+      function removeUser(id) {
+        setUsers((prev) => prev.filter((u) => u.id !== id));
+      }
+
+      if (loading) return <div className="table-wrap"><p className="status">Đang tải dữ liệu...</p></div>;
+      if (error) return <div className="table-wrap"><p className="status">Lỗi tải dữ liệu: {error}</p></div>;
+
+      return (
+        <div>
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Họ tên</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredUsers.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.id}</td>
+                    <td>{u.name}</td>
+                    <td>{u.username}</td>
+                    <td>{u.email}</td>
+                    <td>
+                      {[u.address.street, u.address.suite, u.address.city]
+                        .filter(Boolean)
+                        .join(", ")}
+                    </td>
+                    <td>{u.phone}</td>
+                    <td className="actions">
+                      <button className="btn-edit" onClick={() => editUser(u)}>Sửa</button>
+                      <button className="btn-delete" onClick={() => removeUser(u.id)}>Xóa</button>
+                    </td>
+                  </tr>
+                ))}
+                {filteredUsers.length === 0 && (
+                  <tr><td colSpan="7" className="status">Không tìm thấy người dùng phù hợp.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+          <p className="count">Hiển thị {filteredUsers.length}/{users.length} người dùng</p>
+
+          {editing && (
+            <UserForm
+              title={"Sửa người dùng #" + editing.id}
+              user={editing}
+              onChange={handleEditChange}
+              onSubmit={saveUser}
+              onCancel={() => setEditing(null)}
+              submitText="Lưu"
+              submitClass="btn-save"
+            />
+          )}
+        </div>
+      );
+    }
+
+    // Bước 2: App giữ state dùng chung (kw, newUser) và truyền xuống qua props
+    function App() {
+      const [kw, setKeyword] = React.useState("");
+      const [newUser, setNewUser] = React.useState(null);
+
+      return (
+        <div className="container">
+          <header className="page-head">
+            <h1>Quản lý người dùng</h1>
+            <span className="student">Mai Nhật Thành · 20235431 · IT4409</span>
+          </header>
+          <div className="toolbar">
+            <SearchForm onChangeValue={setKeyword} />
+            <AddUser onAdd={setNewUser} />
+          </div>
+          <ResultTable keyword={kw} user={newUser} onAdded={() => setNewUser(null)} />
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
